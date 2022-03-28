@@ -25,12 +25,11 @@ namespace Opdracht9.Controllers
         // GET: Student
         public async Task<IActionResult> Index(int? id = null)
         {
-            ViewData["KlasId"] = new SelectList(_context.Klassen.OrderBy(k => k.Omschrijving), "Id", "Code");
+
+            ViewData["KlasId"] = new SelectList(_context.Klassen.OrderBy(k => k.Omschrijving), "Id", "Code",id);
 
             if (id != null)
             {
-                            ViewData["KlasId"] = new SelectList(_context.Klassen.OrderBy(k=>k.Omschrijving), "Id", "Omschrijving");
-
                 var klas = _context.Klassen.FirstOrDefault(k => k.Id == id);
                 if (klas == null)
                 {
@@ -38,7 +37,7 @@ namespace Opdracht9.Controllers
                     return View(new List<Student>());
                 }
                 var applicationDbContext = _context.Students
-                    .Where(s=>s.KlasId == id)
+                    .Where(s => s.KlasId == id)
                     .Include(s => s.Klas);
                 return View(await applicationDbContext.ToListAsync());
             }
@@ -68,7 +67,7 @@ namespace Opdracht9.Controllers
         // GET: Student/Create
         public IActionResult Create()
         {
-            ViewData["KlasId"] = new SelectList(_context.Klassen.OrderBy(k=>k.Omschrijving), "Id", "Omschrijving");
+            ViewData["KlasId"] = new SelectList(_context.Klassen.OrderBy(k => k.Omschrijving), "Id", "Omschrijving");
             return View();
         }
 
