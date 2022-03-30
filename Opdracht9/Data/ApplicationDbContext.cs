@@ -9,7 +9,8 @@ namespace Opdracht9.Data
         public DbSet<Klas> Klassen { get; set; }
         public DbSet<Docent> Docenten { get; set; }
         public DbSet<Student> Students { get; set; }    
-        public DbSet<Rooster> Roosters { get; set; }    
+        public DbSet<Rooster> Roosters { get; set; }  
+        public DbSet<Vak> Vakken { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

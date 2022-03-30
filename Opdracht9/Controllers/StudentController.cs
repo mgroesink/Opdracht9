@@ -54,7 +54,7 @@ namespace Opdracht9.Controllers
             }
 
             var student = await _context.Students
-                .Include(s => s.Klas)
+                .Include(s => s.Klas).ThenInclude(k=>k.Roosters).ThenInclude(k=>k.Docent)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {

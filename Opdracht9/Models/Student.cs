@@ -65,7 +65,7 @@ namespace Opdracht9.Models
         [DataType(DataType.Date)]
         public DateTime Geboortedatum { get; set; }
 
-        public Klas Klas { get; set; }
+        public Klas? Klas { get; set; }
         #endregion
 
         #region Constructors
