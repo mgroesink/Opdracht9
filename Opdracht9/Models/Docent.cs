@@ -6,9 +6,9 @@ namespace Opdracht9.Models
 {
     public class Docent
     {
-        #region Fields andf properties
+        #region Fields and properties
         public int Id { get; set; }
-        [RegularExpression("[A-Z]3[0-9]{2}",
+        [RegularExpression("[A-Z]{3}[0-9]{2}",
             ErrorMessage = "Docentcode moet bestaan uit 3 hoofdletters en 2 cijfers")]
         public string Afkorting { get; set; } = string.Empty;
         [MaxLength(10)]

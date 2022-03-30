@@ -41,8 +41,9 @@ namespace Opdracht9.Controllers
                     .Include(s => s.Klas);
                 return View(await applicationDbContext.ToListAsync());
             }
-            ViewBag.Error = "Geen klas gekozen";
-            return View(new List<Student>());
+            var defaultKlas = _context.Klassen.OrderBy(k => k.Omschrijving).FirstOrDefault();
+            return View(await _context.Students.Where(k=>k.KlasId == defaultKlas.Id).ToListAsync());
+
         }
 
         // GET: Student/Details/5
@@ -84,7 +85,7 @@ namespace Opdracht9.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KlasId"] = new SelectList(_context.Klassen, "Id", "Id", student.KlasId);
+            ViewData["KlasId"] = new SelectList(_context.Klassen, "Id", "Code", student.KlasId);
             return View(student);
         }
 

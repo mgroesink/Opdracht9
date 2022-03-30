@@ -3,19 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Opdracht9.Data;
 
 #nullable disable
 
-namespace Opdracht9.Data.Migrations
+namespace Opdracht9.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220323133104_Models created")]
-    partial class Modelscreated
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -313,11 +311,16 @@ namespace Opdracht9.Data.Migrations
                     b.Property<int>("Uur")
                         .HasColumnType("int");
 
+                    b.Property<int>("VakId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DocentId");
 
                     b.HasIndex("KlasId");
+
+                    b.HasIndex("VakId");
 
                     b.ToTable("Roosters");
                 });
@@ -358,6 +361,29 @@ namespace Opdracht9.Data.Migrations
                     b.HasIndex("KlasId");
 
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("Opdracht9.Models.Vak", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Vakken");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -425,9 +451,17 @@ namespace Opdracht9.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Opdracht9.Models.Vak", "Vak")
+                        .WithMany()
+                        .HasForeignKey("VakId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Docent");
 
                     b.Navigation("Klas");
+
+                    b.Navigation("Vak");
                 });
 
             modelBuilder.Entity("Opdracht9.Models.Student", b =>
