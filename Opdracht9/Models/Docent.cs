@@ -26,7 +26,7 @@ namespace Opdracht9.Models
         // 4 cijfers en 2 hoofdlettersletters. Eerste cijfer mag geen 0 zijn.
         public string Postcode { get; set; } = string.Empty;
 
-
+        public List<Student>? Studenten { get; set; }
         #endregion
 
     }

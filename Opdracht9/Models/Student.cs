@@ -46,10 +46,10 @@ namespace Opdracht9.Models
         {
             get
             {
-                int age = DateTime.Now.Year - Geboortedatum.Year;
-                if (DateTime.Now.Month > Geboortedatum.Month) age--;
-                else if (DateTime.Now.Month == Geboortedatum.Month &&
-                    DateTime.Now.Day > Geboortedatum.Day) age--;
+                DateTime birthDate = Geboortedatum==null?
+                    new DateTime():(DateTime)Geboortedatum;
+                int age = DateTime.Now.Year - birthDate.Year;
+                if (DateTime.Now.DayOfYear < birthDate.Day) age--;
                 return age;
             }
         }
@@ -58,14 +58,20 @@ namespace Opdracht9.Models
         public string Voornaam { get; set; } = string.Empty;
         [MaxLength(50, ErrorMessage = "{0} mag maximaal {1} tekens zijn"), Required]
         public string Achternaam { get; set; } = string.Empty;
+        [MaxLength(50, ErrorMessage = "{0} mag maximaal {1} tekens zijn")]
+        public string? Woonplaats { get; set; }
         [ForeignKey(nameof(Klas))]
-        public int KlasId { get; set; }
+        public int? KlasId { get; set; }
+
+        [ForeignKey(nameof(Slb))]
+        public int? SlbId { get; set; }
         [NoFutureDate(ErrorMessage = "Geboortedatum kan niet in de toekomst liggen")]
         [Column("Geboortedatum", TypeName = "Date")]
         [DataType(DataType.Date)]
-        public DateTime Geboortedatum { get; set; }
+        public DateTime? Geboortedatum { get; set; }
 
         public Klas? Klas { get; set; }
+        public Docent? Slb { get; set; }
         #endregion
 
         #region Constructors

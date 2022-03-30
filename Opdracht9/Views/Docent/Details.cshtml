@@ -47,6 +47,31 @@
             @Html.DisplayFor(model => model.Postcode)
         </dd>
     </dl>
+    <h4>SLB studenten</h4>
+    @if(Model.Studenten == null || Model.Studenten.Count == 0 )
+    {
+        <p>@Model.Achternaam is geen SLB-er</p>
+    }
+    else
+    {
+    <table class="table" style="width:60%">
+        <tr>
+            <th>Studentnummer</th>
+            <th>Voornaam</th>
+            <th>Achternaam</th>
+            <th>Klas</th>
+        </tr>
+    @foreach(var std in Model.Studenten)
+    {
+        <tr>
+            <td>@std.Studentnummer</td>
+            <td>@std.Voornaam</td>
+            <td>@std.Achternaam</td>
+            <td>@std.Klas.Omschrijving</td>
+        </tr>
+    }
+    </table>
+    }
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |

@@ -34,7 +34,7 @@ namespace Opdracht9.Controllers
                 return NotFound();
             }
 
-            var docent = await _context.Docenten
+            var docent = await _context.Docenten.Include(d=>d.Studenten).ThenInclude(s=>s.Klas)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (docent == null)
             {

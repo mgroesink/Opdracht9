@@ -38,7 +38,7 @@ namespace Opdracht9.Controllers
                 }
                 var applicationDbContext = _context.Students
                     .Where(s => s.KlasId == id)
-                    .Include(s => s.Klas);
+                    .Include(s => s.Klas).Include(s=>s.Slb);
                 return View(await applicationDbContext.ToListAsync());
             }
             var defaultKlas = _context.Klassen.OrderBy(k => k.Omschrijving).FirstOrDefault();
@@ -54,7 +54,7 @@ namespace Opdracht9.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var student = await _context.Students.Include(s=>s.Slb)
                 .Include(s => s.Klas).ThenInclude(k=>k.Roosters).ThenInclude(k=>k.Docent)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
@@ -69,6 +69,7 @@ namespace Opdracht9.Controllers
         public IActionResult Create()
         {
             ViewData["KlasId"] = new SelectList(_context.Klassen.OrderBy(k => k.Omschrijving), "Id", "Omschrijving");
+            ViewData["SlbId"] = new SelectList(_context.Docenten.OrderBy(k => k.Afkorting), "Id", "Afkorting");
             return View();
         }
 
@@ -77,7 +78,7 @@ namespace Opdracht9.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Studentnummer,Voornaam,Achternaam,KlasId,Geboortedatum")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,Studentnummer,Voornaam,Achternaam,KlasId,SlbId,Geboortedatum")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +87,7 @@ namespace Opdracht9.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["KlasId"] = new SelectList(_context.Klassen, "Id", "Code", student.KlasId);
+            ViewData["SlbId"] = new SelectList(_context.Docenten.OrderBy(k => k.Afkorting), "Id", "Afkorting",student.SlbId);
             return View(student);
         }
 
