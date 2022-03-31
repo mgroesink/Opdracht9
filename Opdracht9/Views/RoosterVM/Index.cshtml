@@ -1,0 +1,18 @@
+﻿@using System.Globalization
+@model IEnumerable<Opdracht9.Models.ViewModels.RoosterVM>
+
+<table class="table">
+    @foreach (var row in Model)
+    {
+        var culture = new System.Globalization.CultureInfo("nl-NL");
+        var day = culture.DateTimeFormat.GetDayName(row.Dag);
+        <tr>
+            <td>@row.Klas</td>
+            <td>@row.Docent</td>
+            <td>@row.Vak</td>
+            <td>@row.Lokaal</td>
+            <td>@day</td>
+            <td>@row.Uur</td>
+        </tr>
+    }
+</table>
